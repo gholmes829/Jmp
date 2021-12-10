@@ -18,6 +18,7 @@ from json import load
 def search(queue: List[Tuple[str, List[str], int]],
             search_cond: Callable[[str, str], bool],
             match_cond: Callable[[str, str], bool],
+            blacklist: list[str],
         ) -> str:
     """
     Breadth first search through files.
@@ -29,6 +30,8 @@ def search(queue: List[Tuple[str, List[str], int]],
         if not depth: return  # ran out of depth
         try: files = [f for f in os.listdir(origin)]
         except PermissionError: continue  # not allowed to access certain files
+        # filter out files that start with blacklist items
+        files = [f for f in files if not any(f.startswith(b) for b in blacklist)]
         for f in files:
             path = osp.join(origin, f)
             if match_cond(targets[0], path):
@@ -74,6 +77,12 @@ def main() -> None:
     except FileNotFoundError: pass
     args.regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
 
+    blacklist = []
+    try:
+        with open("blacklist.json", "r") as f:
+            blacklist = load(f)
+    except FileNotFoundError: pass
+
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
         Types.File: lambda p: osp.isfile(p) and not osp.isdir(p),
@@ -83,14 +92,15 @@ def main() -> None:
 
     # specify which files should be explored
     def search_cond(origin: str, target: str) -> bool:
-        return osp.isdir(osp.join(origin, target)) and target[0] not in {'.', '_'}
+        return osp.isdir(osp.join(origin, target)) 
+
 
     # specify how a match should be determined
     def match_cond(target: str, f: str) -> bool:
         return re.match(target, osp.basename(f)) and valid_type(f)
 
     # start the search
-    search([(args.begin, args.regexes, args.level)], search_cond, match_cond)
+    search([(args.begin, args.regexes, args.level)], search_cond, match_cond, blacklist)
 
     if not args.silent:  # a successful search would have already exited by this point
         print('Failed to find path.', flush=True)
