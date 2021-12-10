@@ -34,6 +34,7 @@ $ jmp expr_1 expr_2 ...expr_n
 ```
 where each `expr_i` is a Python-compatible regex string, which of course includes plain text searches if you don't want to use fancy regex. The algorithm will perform a breadth first search through the file system, attempting to sequentially match expressions with files it encounters. Once the last expression has been matched and popped off, your cwd will be changed to the target directory. By default without using regex, the algorithm attempts to match files starting with the `expr`. You can instead jump to files ending with an "query" with `jmp .*query$`.
 
+If you find yourself not wanting to type out a directory's name every time, you can use aliases. You can modify aliases.json to include a key-value pair that transforms your input. For example, adding `"cc": "EECS 665"` to aliases.json would make it so `jmp cc` gets interpreted as `jmp EECS\ 665`. This allows for shorter commands that get you to where you want. 
 
 Run the following to learn more about flags (-b, -f, -d, -l, -s, etc)
 ```
