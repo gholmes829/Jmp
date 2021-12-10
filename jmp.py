@@ -12,6 +12,7 @@ from typing import Callable, List, Tuple
 from functools import reduce
 import operator
 from enum import IntEnum
+from json import load
 
 
 def search(queue: List[Tuple[str, List[str], int]],
@@ -65,6 +66,13 @@ def main() -> None:
 
     try: args = parser.parse_args()
     except: sys.exit(1)
+
+    aliases = {}
+    try:
+        with open("aliases.json", "r") as f:
+            aliases = load(f)
+    except FileNotFoundError: pass
+    args.regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
