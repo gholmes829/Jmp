@@ -5,6 +5,7 @@ Navigate your filesystem with speeds never seen before. Given a set of regular e
 
 ## Intallation
 Have a working installation of `Python 3`
+
 \
 Clone this repo:
 ```
