@@ -36,18 +36,25 @@ Basic usage is as follows
 ```
 $ jmp expr_1 expr_2 ...expr_n
 ```
-where each `expr_i` is a Python-compatible regex string, which of course includes plain text searches if you don't want to use fancy regex. The algorithm will perform a breadth first search through the file system, attempting to sequentially match expressions with files it encounters. Once the last expression has been matched and popped off, your cwd will be changed to the target directory. By default without using regex, the algorithm attempts to match files starting with the `expr`. You can instead jump to files ending with an "query" with `jmp .*query$`.
+where each `expr_i` is a Python-compatible regex string, which of course includes plain text searches if you don't want to use fancy regex. The algorithm will perform a breadth first search through the file system, attempting to sequentially match expressions with files it encounters. Once the last expression has been matched and popped off, your cwd will be changed to the target directory. By default without using regex, the algorithm attempts to match files starting with the `expr`. You can instead jump to files ending with a "query" with `jmp .*query$`.
 
-If you find yourself not wanting to type out a directory's name every time, you can use aliases. You can modify aliases.json to include a key-value pair that transforms your input. For example, adding `"cc": "EECS 665"` to aliases.json would make it so `jmp cc` gets interpreted as `jmp EECS\ 665`. This allows for shorter commands that get you to where you want. 
+If you find yourself not wanting to type out a directory's name every time, you can use aliases. You can modify `aliases.json` to include a key-value pair that transforms your input. For example, adding `"cc": "EECS 665"` to `aliases.json` would make it so `jmp cc` gets interpreted as `jmp EECS\ 665`. This allows for shorter commands that get you to where you want. 
 
-If you don't want to waste compute time on deep directories that you know don't contain anything useful, you can use the blacklist. Any blacklisted term will not be evaluated. For example, adding `"Documents"` into blacklist.json prevents us from searching for or inside of the documents folder. This allows for a faster experience.
+If you don't want to waste compute time on deep directories that you know don't contain anything useful, you can use the blacklist. Any blacklisted term will not be evaluated. For example, adding `"Documents"` into `blacklist.json` prevents us from searching for or inside of the documents folder. This allows for a faster experience.
 
-Run the following to learn more about flags (-b, -f, -d, -l, -s, etc)
+The following command will show usage and flags
 ```
 $ jmp -h
 ```
 
-Flags enable you to specify type of file to search, limit max search depth, set search root path, silence output, and more.
+
+Flags include
+* `-b, --begin <str, path>` set root of search to <path>
+* `-f, --file` specify that files (rather than dirs) should be searched for
+* `-d, --dir` specify that dirs (rather than files) should be searched for
+* `-l, --level <int, level>` search will now run until match found or until max depth reached
+* `-s, --silent` indicate that failure to find path should not print a message
+
 
 Lastly, take note of function variations/ aliases `jmpa` (run `jmp` from root), `jmpf` (search only for files), and `jmpd` (search only for directories). Since a major point of `jmp` is for convenience and to save time, it would make sense to use `jmpd` rather than `jmp -d`.
 
