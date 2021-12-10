@@ -29,4 +29,7 @@ Run the following to learn more about flags
 $ jmp -h
 ```
 \
-Flags enable you to specify type of file to search, set search root path, silence output, and more!
+
+Flags enable you to specify type of file to search, set search root path, silence output, and more.
+\
+Lastly, take note of function variations `jmpa` for absolute jump, `jmpf` for file jump, and `jmpd` for dir jump.
