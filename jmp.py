@@ -19,8 +19,8 @@ ROOT_DIR = osp.dirname(osp.realpath(__file__))
 def search(queue: List[Tuple[str, List[str], int]],
             search_cond: Callable[[str, str], bool],
             match_cond: Callable[[str, str], bool],
-            blacklist: list[str],
-        ) -> str:
+            blacklist: List[str],
+        ) -> None:
     """
     Breadth first search through files.
     search_cond determines what gets added to search queue
@@ -74,7 +74,7 @@ def main() -> None:
         with open(osp.join(ROOT_DIR, 'aliases.json'), 'r') as f:
             aliases = load(f)
     except FileNotFoundError: aliases = {}
-    args.regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
+    regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
 
     try:
         with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
@@ -98,7 +98,7 @@ def main() -> None:
         return re.match(target, osp.basename(f)) and valid_type(f)
 
     # start the search
-    search([(args.begin, args.regexes, args.level)], search_cond, match_cond, blacklist)
+    search([(args.begin, regexes, args.level)], search_cond, match_cond, blacklist)
 
     if not args.silent:  # a successful search would have already exited by this point
         print('Failed to find path.', flush=True)
