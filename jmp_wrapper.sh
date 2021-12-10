@@ -1,5 +1,3 @@
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
 function jmp() {
 	OUT="$(python3 ${SCRIPT_DIR}/jmp.py "$@")"
 	EXIT="$?"

@@ -11,9 +11,14 @@ Clone this repo:
 $ git clone https://github.com/gholmes829/Jmp.git
 ```
 \
+Modify wrapper to set path:
+```
+echo -e "SCRIPT_DIR=\"$(pwd)/Jmp\"\n\n$(cat Jmp/jmp_wrapper.sh)" > Jmp/jmp_wrapper.sh
+```
+\
 Add line to terminal configuration file (.zshrc, .bashrc, etc):
 ```
-$ echo "source \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <path to your config>
+$ echo "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <path to your config>
 ```
 
 ## Usage
