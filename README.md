@@ -56,7 +56,7 @@ Flags include
 * `-s, --silent` indicate that failure to find path should not print a message
 
 
-Lastly, take note of function variations/ aliases `jmpa` (run `jmp` from root), `jmpf` (search only for files), and `jmpd` (search only for directories). Since a major point of `jmp` is for convenience and to save time, it would make sense to use `jmpd` rather than `jmp -d`.
+Lastly, take note of function variations/ aliases `jmpa` (run `jmp` from root), `jmps` (pass search root as first arg), `jmpf` (search only for files), and `jmpd` (search only for directories). Since a major point of `jmp` is for convenience and to save time, it would make sense to use `jmpd` rather than `jmp -d`.
 
 ## Considerations
 You may find yourself doing some experimentation to learn how to get the best use out of this tool. If you excessively shorten your expressions, it is very likely you'll end up in a lexically similiar location that is different from what you intended. Using multiple strategic expressions will conversely speed up the operation by narrowing the search space. Considering the absolute worst case in terms of convenience, we can see that `jmp` converges to `cd` as each expression could be the next folder that you would need to `cd` to (e.g. `jmp Projects Diviner core` vs `cd Projects/Diviner/core`).
