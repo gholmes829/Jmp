@@ -23,7 +23,7 @@ $ git clone https://github.com/gholmes829/Jmp.git
 Without changing folders from the place you ran `git clone`, run
 ```
 $ echo -e "SCRIPT_DIR=\"$(pwd)/Jmp\"\n\n$(cat Jmp/jmp_wrapper.sh)" > Jmp/jmp_wrapper.sh; \
-  echo "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <YOUR TERMINAL CONFIG PATH>
+  echo -e "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <YOUR TERMINAL CONFIG PATH>
 ```
 where `<YOUR TERMINAL CONFIG PATH>` is the path to your `.bashrc`, `.zshrc`, or whatever else you use that gets run upon opening a terminal.
 
