@@ -7,7 +7,7 @@ Given a set of regular expressions, `jmp` will intelligently search through your
 
 This tool is also very useful if you only remember part of the name of place you want to go to, as you can run `jmp .+<snippet you remember>.+` and then theres a good chance you'll end up in the right place. Thanks, regex!
 
-Before             |  After
+Before :(            |  After :)
 :-------------------------:|:-------------------------:
 ![](https://user-images.githubusercontent.com/60802511/145519711-d6aa1ee9-c9d3-463b-90da-294c95b07723.png)  |  ![](https://user-images.githubusercontent.com/60802511/145519709-f2ac184c-d445-4bd3-8f4b-c4cb43008f41.png)
 
