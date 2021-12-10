@@ -49,7 +49,7 @@ $ jmp -h
 
 
 Flags include
-* `-b, --begin <str, path>` set root of search to <path>
+* `-b, --begin <str, path>` set root of search
 * `-f, --file` specify that files (rather than dirs) should be searched for
 * `-d, --dir` specify that dirs (rather than files) should be searched for
 * `-l, --level <int, level>` search will now run until match found or until max depth reached
