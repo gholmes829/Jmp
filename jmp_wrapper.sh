@@ -16,6 +16,24 @@ function jmp() {
 	fi
 }
 
+function jmps() {
+	OUT="$(python3 ${SCRIPT_DIR}/jmp.py -b "$@")"
+	EXIT="$?"
+	if [ "$EXIT" = "0" ]
+	then
+		cd "$OUT"
+	elif [ "$EXIT" = "1" ]
+	then
+		if [ "$OUT" != "" ]
+		then
+			echo "$OUT"	
+		fi
+	else
+		echo "$EXIT"
+		echo "Unexpected error occurred."
+	fi
+}
+
 function jmpa() {
 	OUT="$(python3 ${SCRIPT_DIR}/jmp.py -b / "$@")"
 	EXIT="$?"
