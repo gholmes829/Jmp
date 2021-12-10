@@ -14,6 +14,7 @@ import operator
 from enum import IntEnum
 from json import load
 
+ROOT_DIR = osp.dirname(osp.realpath(__file__))
 
 def search(queue: List[Tuple[str, List[str], int]],
             search_cond: Callable[[str, str], bool],
@@ -28,10 +29,9 @@ def search(queue: List[Tuple[str, List[str], int]],
     while queue:
         origin, targets, depth = queue.pop(0)
         if not depth: return  # ran out of depth
-        try: files = [f for f in os.listdir(origin)]
+        # gen files and filter out those that start with blacklist items
+        try: files = [f for f in os.listdir(origin) if not any([b.match(f) for b in blacklist])]
         except PermissionError: continue  # not allowed to access certain files
-        # filter out files that start with blacklist items
-        files = [f for f in files if not any(b.match(f) for b in blacklist)]
         for f in files:
             path = osp.join(origin, f)
             if match_cond(targets[0], path):
@@ -70,18 +70,16 @@ def main() -> None:
     try: args = parser.parse_args()
     except: sys.exit(1)
 
-    aliases = {}
     try:
-        with open("aliases.json", "r") as f:
+        with open(osp.join(ROOT_DIR, 'aliases.json'), 'r') as f:
             aliases = load(f)
-    except FileNotFoundError: pass
+    except FileNotFoundError: aliases = {}
     args.regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
 
-    blacklist = []
     try:
-        with open("blacklist.json", "r") as f:
+        with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
             blacklist = [re.compile(b) for b in load(f)]
-    except FileNotFoundError: pass
+    except FileNotFoundError: blacklist = []
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
