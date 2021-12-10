@@ -1,5 +1,7 @@
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 function jmp() {
-	OUT="$(python3 ~/jmp.py "$@")"
+	OUT="$(python3 ${SCRIPT_DIR}/jmp.py "$@")"
 	EXIT="$?"
 	if [ "$EXIT" = "0" ]
 	then
@@ -17,7 +19,7 @@ function jmp() {
 }
 
 function jmpa() {
-	OUT="$(python3 ~/jmp.py -b / "$@")"
+	OUT="$(python3 ${SCRIPT_DIR}/jmp.py -b / "$@")"
 	EXIT="$?"
 	if [ "$EXIT" = "0" ]
 	then
@@ -35,7 +37,7 @@ function jmpa() {
 }
 
 function jmpf() {
-	OUT="$(python3 ~/jmp.py -f "$@")"
+	OUT="$(python3 ${SCRIPT_DIR}/jmp.py -f "$@")"
 	EXIT="$?"
 	if [ "$EXIT" = "0" ]
 	then
@@ -53,7 +55,7 @@ function jmpf() {
 }
 
 function jmpd() {
-	OUT="$(python3 ~/jmp.py -d "$@")"
+	OUT="$(python3 ${SCRIPT_DIR}/jmp.py -d "$@")"
 	EXIT="$?"
 	if [ "$EXIT" = "0" ]
 	then

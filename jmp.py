@@ -84,7 +84,7 @@ def main() -> None:
     # start the search
     search([(args.begin, args.regexes, args.level)], search_cond, match_cond)
 
-    if not args.silent:
+    if not args.silent:  # a successful search would have already exited by this point
         print('Failed to find path.', flush=True)
 
     sys.exit(1)
