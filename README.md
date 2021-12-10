@@ -5,26 +5,22 @@ Navigate your filesystem with speeds never seen before. Given a set of regular e
 
 ## Intallation
 Have a working installation of `Python 3`
+
 \
 Clone this repo:
 ```
 $ git clone https://github.com/gholmes829/Jmp.git
 ```
 \
-Modify wrapper to set path:
+Set proper path for wrappar and add line to terminal configuration file (.zshrc, .bashrc, etc):
 ```
-echo -e "SCRIPT_DIR=\"$(pwd)/Jmp\"\n\n$(cat Jmp/jmp_wrapper.sh)" > Jmp/jmp_wrapper.sh
-```
-\
-Add line to terminal configuration file (.zshrc, .bashrc, etc):
-```
-$ echo "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <path to your config>
+$ echo -e "SCRIPT_DIR=\"$(pwd)/Jmp\"\n\n$(cat Jmp/jmp_wrapper.sh)" > Jmp/jmp_wrapper.sh; echo "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <YOUR TERMINAL CONFIG PATH>
 ```
 
 ## Usage
 Basic usage is as follows
 ```
-$ jmp <file name>
+$ jmp <filename>
 $ jmp <dirname>
 ```
 \
@@ -32,3 +28,5 @@ Run the following to learn more about flags
 ```
 $ jmp -h
 ```
+\
+Flags enable you to specify type of file to search, set search root path, silence output, and more!
