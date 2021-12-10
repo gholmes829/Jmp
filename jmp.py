@@ -79,7 +79,7 @@ def main() -> None:
     try:
         with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
             blacklist = {re.compile(b) for b in load(f)}
-    except FileNotFoundError: blacklist = []
+    except FileNotFoundError: blacklist = set()
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
