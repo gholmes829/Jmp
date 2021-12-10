@@ -36,6 +36,8 @@ where each `expr_i` is a Python-compatible regex string, which of course include
 
 If you find yourself not wanting to type out a directory's name every time, you can use aliases. You can modify aliases.json to include a key-value pair that transforms your input. For example, adding `"cc": "EECS 665"` to aliases.json would make it so `jmp cc` gets interpreted as `jmp EECS\ 665`. This allows for shorter commands that get you to where you want. 
 
+If you don't want to waste compute time on deep directories that you know don't contain anything useful, you can use the blacklist. Any blacklisted term will not be evaluated. For example, adding `"Documents"` into blacklist.json prevents us from searching for or inside of the documents folder. This allows for a faster experience.
+
 Run the following to learn more about flags (-b, -f, -d, -l, -s, etc)
 ```
 $ jmp -h
