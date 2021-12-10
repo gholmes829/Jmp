@@ -29,7 +29,7 @@ def search(queue: List[Tuple[str, List[str], int]],
     while queue:
         origin, targets, depth = queue.pop(0)
         if not depth: return  # ran out of depth
-        # gen files and filter out those that start with blacklist items
+        # gen files and filter out those that match blacklist patterns
         try: files = [f for f in os.listdir(origin) if not any([b.match(f) for b in blacklist])]
         except PermissionError: continue  # not allowed to access certain files
         for f in files:
