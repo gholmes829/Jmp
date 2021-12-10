@@ -1,7 +1,9 @@
 # Jmp
 
 ## Description
-Navigate your filesystem with speeds never seen before. Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory. Instead of `cd Users/gholmes/Projects/Diviner/core/` (what a waste of time and energy), just input `jmp Diviner core` to achieve the same results. Arguments can be regular expressions and can "guide" the search to a final prediction.
+Have you used the `cd` command? You'll never touch it again once you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before.
+
+Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory. Instead of `cd /Users/gholmes/Projects/Diviner/core/` (what a waste of time and energy, am I right?), just input `jmp Div core` to achieve the same results. Arguments can be regular expressions and can "guide" the search to a final prediction.
 
 ## Intallation
 Have a working installation of `Python 3`
