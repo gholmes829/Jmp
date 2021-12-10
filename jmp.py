@@ -59,7 +59,7 @@ def depth(arg: str) -> int:
 Types = IntEnum('Types', 'Unspecified File Dir All', start=0)
 
 def main() -> None:
-    parser = argparse.ArgumentParser(exit_on_error=False, description='Super powered cd!')
+    parser = argparse.ArgumentParser(description='Super powered cd!')
     parser.add_argument('--level', '-l', type=depth, default=-1, help='limit search depth')
     parser.add_argument('--begin', '-b', default=os.getcwd(), help='select root of search path')
     parser.add_argument('--silent', '-s', action='store_const', const=True, help='prevent normal stdout to console')
