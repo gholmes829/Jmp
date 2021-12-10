@@ -27,7 +27,7 @@ $ echo -e "SCRIPT_DIR=\"$(pwd)/Jmp\"\n\n$(cat Jmp/jmp_wrapper.sh)" > Jmp/jmp_wra
 ```
 where `<YOUR TERMINAL CONFIG PATH>` is the path to your `.bashrc`, `.zshrc`, or whatever else you use that gets run upon opening a terminal.
 
-These commands will set everything up so that you can always access `jmp` from the terminal.
+These commands will set everything up so that you can always access `jmp` from the terminal. All they do is prepend the absolute path of Jmp to `jmp_wrapper.sh` and appends a `source <path to jmp_wrapper.sh>` to your terminal config file.
 
 Optionally, you can rename the `jmp` command to something else. Setting `alias dc=jmp` in your terminal config file will now let you run `dc D c` (from the example above), where `dc` is now `cd`'s evil nemesis.
 
