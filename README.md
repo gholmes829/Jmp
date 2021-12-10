@@ -5,7 +5,7 @@ Have you ever used the `cd` command? You'll never touch that outdated thing agai
 
 Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory. Instead of `cd /Users/gholmes/Projects/Diviner/core/` (what a waste of time and energy, am I right?), just input `jmp D c` to achieve the exact same results. Arguments can be regular expressions and can "guide" the search to a final prediction.
 
-This tool is also very useful if you only remember part of the name of place you want to go to, as you can run `jmp .+<snippet you remember>.+` and then theres a good chance you'll end up in the right place. Thanks, regex!
+This tool is also very useful if you only remember part of the name of place you want to go to, as you can run `jmp ".*<snippet you remember>.*"` and then theres a good chance you'll end up in the right place. Thanks, regex!
 
 Before :(            |  After :)
 :-------------------------:|:-------------------------:
