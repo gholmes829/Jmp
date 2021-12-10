@@ -13,7 +13,7 @@ $ git clone https://github.com/gholmes829/Jmp.git
 \
 Add line to terminal configuration file (.zshrc, .bashrc, etc):
 ```
-source <path to repo>/jmp_wrapper.sh
+$ echo "source \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <path to your config>
 ```
 
 ## Usage
