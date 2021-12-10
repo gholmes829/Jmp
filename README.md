@@ -33,3 +33,5 @@ Run the following to learn more about flags
 ```
 $ jmp -h
 ```
+\
+Also take note of variations `jmpa` for absolute jump, `jmpf` for file jump, and `jmpd` for dir jump.
