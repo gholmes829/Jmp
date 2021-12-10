@@ -31,7 +31,7 @@ def search(queue: List[Tuple[str, List[str], int]],
         try: files = [f for f in os.listdir(origin)]
         except PermissionError: continue  # not allowed to access certain files
         # filter out files that start with blacklist items
-        files = [f for f in files if not any(f.startswith(b) for b in blacklist)]
+        files = [f for f in files if not any(b.match(f) for b in blacklist)]
         for f in files:
             path = osp.join(origin, f)
             if match_cond(targets[0], path):
@@ -80,7 +80,7 @@ def main() -> None:
     blacklist = []
     try:
         with open("blacklist.json", "r") as f:
-            blacklist = load(f)
+            blacklist = [re.compile(b) for b in load(f)]
     except FileNotFoundError: pass
 
     valid_type = {
