@@ -45,7 +45,7 @@ Run the following to learn more about flags (-b, -f, -d, -l, -s, etc)
 $ jmp -h
 ```
 
-Flags enable you to specify type of file to search, set search root path, silence output, and more.
+Flags enable you to specify type of file to search, limit max search depth, set search root path, silence output, and more.
 
 Lastly, take note of function variations/ aliases `jmpa` (run `jmp` from root), `jmpf` (search only for files), and `jmpd` (search only for directories). Since a major point of `jmp` is for convenience and to save time, it would make sense to use `jmpd` rather than `jmp -d`.
 
