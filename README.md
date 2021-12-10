@@ -1,7 +1,7 @@
 # Jmp
 
 ## Description
-Have you ever used the `cd` command? You'll never touch that outdated thing again once you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before.
+Have you ever used the `cd` command? You'll never touch that outdated thing again when you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before. Become a truly **unstoppable** force on the command line.
 
 Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory. Instead of `cd /Users/gholmes/Projects/Diviner/core/` (what a waste of time and energy, am I right?), just input `jmp D c` to achieve the exact same results. Arguments can be regular expressions and can "guide" the search to a final prediction.
 
