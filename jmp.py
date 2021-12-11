@@ -38,7 +38,7 @@ def search(
         origin, targets, depth = queue.pop(0)
         if not depth: return  # ran out of depth
         try: files = [f for f in os.listdir(origin) if not any(b.match(f) for b in blacklist)]
-        except PermissionError: continue  # not allowed to access certain files
+        except (PermissionError, FileNotFoundError): continue  # not allowed to access certain files, files like proc behave weird 
         for f in files:
             match = process_file(f, origin, targets, depth)
             if match: return match
