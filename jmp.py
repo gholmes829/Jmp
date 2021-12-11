@@ -21,7 +21,7 @@ def search(
         match_cond: Callable[[str, str], bool],
         blacklist: List[str],
     ) -> str:
-    """Breath first search traversal of file system, attempts to find match given constraints."""
+    """Breadth first search traversal of file system, attempts to find a match given constraints."""
 
     def process_file(path: str, targets: List[str], depth: int) -> str:
         """Determine whether a file is a match, should be searched, both, or neither."""
