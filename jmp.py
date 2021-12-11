@@ -13,37 +13,63 @@ from functools import reduce
 import operator
 from enum import IntEnum
 from json import load
+import time
+
 
 ROOT_DIR = osp.dirname(osp.realpath(__file__))
 
-def search(queue: List[Tuple[str, List[str], int]],
-            search_cond: Callable[[str, str], bool],
-            match_cond: Callable[[str, str], bool],
-            blacklist: List[str],
-        ) -> None:
-    """
-    Breadth first search through files.
-    search_cond determines what gets added to search queue
-    match_cond determines whether a file should be considered as a final match
-    """
+class Timer:
+    def __enter__(self):
+        self._timer = time.time()
+        self._elapsed = None
+        return self
+
+    def elapsed(self):
+        return self._elapsed
+
+    def __exit__(self, *_):
+        self._elapsed = time.time() - self._timer
+
+
+def search(
+        queue: List[Tuple[str, List[str], int]],
+        search_cond: Callable[[str, str], bool],
+        match_cond: Callable[[str, str], bool],
+        blacklist: List[str],
+    ) -> str:
+
+    def process_file(f: str, origin: str, targets: List[str], depth: int) -> str:
+        path = osp.join(origin, f)
+        if match_cond(targets[0], path):
+            if len(targets) - 1:  # there are more targets to search
+                if search_cond(origin, f):
+                    queue.append((path, targets[1:], depth - 1))
+            elif not osp.isdir(path): return osp.dirname(path)  # no more targets and found file
+            else: return path  # no more targets and found dir
+        elif search_cond(origin, f): queue.append((path, targets, depth -1))
+
     while queue:
         origin, targets, depth = queue.pop(0)
         if not depth: return  # ran out of depth
-        # gen files and filter out those that match blacklist patterns
         try: files = [f for f in os.listdir(origin) if not any(b.match(f) for b in blacklist)]
         except PermissionError: continue  # not allowed to access certain files
         for f in files:
-            path = osp.join(origin, f)
-            if match_cond(targets[0], path):
-                if len(targets) - 1:  # there are more targets to search
-                    if search_cond(origin, f):
-                        queue.append((path, targets[1:], depth - 1))
-                else:  # matched last target!
-                    if not osp.isdir(path):
-                        path = osp.dirname(path)
-                    print(path, flush=True)
-                    sys.exit(0)
-            elif search_cond(origin, f): queue.append((path, targets, depth -1))
+            match = process_file(f, origin, targets, depth)
+            if match: return match
+        
+
+def load_aliases():
+    try:
+        with open(osp.join(ROOT_DIR, 'aliases.json'), 'r') as f:
+            return load(f)
+    except FileNotFoundError: return {}
+
+
+def load_blacklist():
+    try:
+        with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
+            return {re.compile(b) for b in load(f)}
+    except FileNotFoundError: return set()
 
 
 def depth(arg: str) -> int:
@@ -58,7 +84,7 @@ def depth(arg: str) -> int:
 
 Types = IntEnum('Types', 'Unspecified File Dir All', start=0)
 
-def main() -> None:
+def make_argparser():
     parser = argparse.ArgumentParser(description='Super powered cd!')
     parser.add_argument('--level', '-l', type=depth, default=-1, help='limit search depth')
     parser.add_argument('--begin', '-b', default=os.getcwd(), help='select root of search path')
@@ -66,20 +92,17 @@ def main() -> None:
     parser.add_argument('--file', '-f', dest='flags', action='append_const', const=Types.File, help='specify to add file types to search')
     parser.add_argument('--dir', '-d', dest='flags', action='append_const', const=Types.Dir, help='specify to add dir types to search')
     parser.add_argument('regexes', nargs='+', help='arbitrary number of regexes to match against')
+    return parser
 
+
+def main() -> None:
+    parser = make_argparser()
     try: args = parser.parse_args()
     except: sys.exit(1)
 
-    try:
-        with open(osp.join(ROOT_DIR, 'aliases.json'), 'r') as f:
-            aliases = load(f)
-    except FileNotFoundError: aliases = {}
+    aliases = load_aliases()
+    blacklist = load_blacklist()
     regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
-
-    try:
-        with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
-            blacklist = {re.compile(b) for b in load(f)}
-    except FileNotFoundError: blacklist = set()
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
@@ -92,18 +115,20 @@ def main() -> None:
     def search_cond(origin: str, target: str) -> bool:
         return osp.isdir(osp.join(origin, target)) 
 
-
     # specify how a match should be determined
     def match_cond(target: str, f: str) -> bool:
         return re.match(target, osp.basename(f)) and valid_type(f)
 
-    # start the search
-    search([(args.begin, regexes, args.level)], search_cond, match_cond, blacklist)
-
-    if not args.silent:  # a successful search would have already exited by this point
-        print('Failed to find path.', flush=True)
-
-    sys.exit(1)
+    # run the search
+    match = search([(args.begin, regexes, args.level)], search_cond, match_cond, blacklist)
+    
+    if match:
+        print(match, flush=True)
+        sys.exit(0)
+    else:
+        if not args.silent:
+            print('Failed to find path.', flush=True)
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
