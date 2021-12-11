@@ -1,7 +1,6 @@
 """
 Author: Grant Holmes
 Email: g.holmes429@gmail.com
-Date Created: 12/09/2021
 """
 
 import sys
@@ -10,7 +9,6 @@ import re
 import argparse
 from typing import Callable, List, Tuple
 from functools import reduce
-import operator
 from enum import IntEnum
 from json import load
 
@@ -24,24 +22,26 @@ def search(
         blacklist: List[str],
     ) -> str:
 
-    def process_file(f: str, origin: str, targets: List[str], depth: int) -> str:
-        path = osp.join(origin, f)
-        if match_cond(targets[0], path):
-            if len(targets) - 1:  # there are more targets to search
-                if search_cond(origin, f):
+    def process_file(path: str, targets: List[str], depth: int) -> str:
+        if match_cond(path, targets[0]):
+            if len(targets) - 1:  # if we are yet to reach the final target expr
+                if search_cond(path):  # lets add this path to be expanded and searched
                     queue.append((path, targets[1:], depth - 1))
-            elif not osp.isdir(path): return osp.dirname(path)  # no more targets and found file
-            else: return path  # no more targets and found dir
-        elif search_cond(origin, f): queue.append((path, targets, depth -1))
+            elif not osp.isdir(path):  # lets return parent dir of file as the match
+                return osp.dirname(path)
+            else:  # lets return the path which we know to be a directory
+                return path
+        elif search_cond(path):  # path is not a match but should be expanded and searched
+            queue.append((path, targets, depth -1))
 
     while queue:
         origin, targets, depth = queue.pop(0)
-        if not depth: return  # ran out of depth
+        if not depth: return  # we exhausted allocated depth, give up
         try: files = [f for f in os.listdir(origin) if not any(b.match(f) for b in blacklist)]
-        except (PermissionError, FileNotFoundError): continue  # not allowed to access certain files, files like proc behave weird 
+        except (PermissionError, FileNotFoundError): continue  # might not be able or allowed to access certain files, skip
         for f in files:
-            match = process_file(f, origin, targets, depth)
-            if match: return match
+            match = process_file(osp.join(origin, f), targets, depth)
+            if match: return match  # if a match is found, we are done
         
 
 def load_aliases():
@@ -95,15 +95,15 @@ def main() -> None:
         Types.File: lambda p: osp.isfile(p) and not osp.isdir(p),
         Types.Dir: lambda p: osp.isdir(p),
         Types.All: lambda p: osp.exists(p)
-    }[reduce(operator.or_, args.flags or [], 0)]
+    }[reduce(lambda a, b: a | b, args.flags or [], 0)]
 
     # specify which files should be explored
-    def search_cond(origin: str, target: str) -> bool:
-        return osp.isdir(osp.join(origin, target)) 
+    def search_cond(path: str) -> bool:
+        return osp.isdir(path) 
 
     # specify how a match should be determined
-    def match_cond(target: str, f: str) -> bool:
-        return re.match(target, osp.basename(f)) and valid_type(f)
+    def match_cond(path: str, target: str) -> bool:
+        return re.match(target, osp.basename(path)) and valid_type(path)
 
     # run the search
     match = search([(args.begin, regexes, args.level)], search_cond, match_cond, blacklist)
@@ -111,10 +111,10 @@ def main() -> None:
     if match:
         print(match, flush=True)
         sys.exit(0)
-    else:
-        if not args.silent:
-            print('Failed to find path.', flush=True)
-        sys.exit(1)
+    elif not args.silent:
+        print('Failed to find path.', flush=True)
+    
+    sys.exit(1)  # a successful search would have already prior to this
 
 if __name__ == '__main__':
     main()
