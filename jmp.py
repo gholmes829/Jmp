@@ -7,7 +7,7 @@ import sys
 import os.path as osp, os
 import re
 import argparse
-from typing import Callable, List, Tuple
+from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet
 from functools import reduce
 from enum import IntEnum
 from json import load
@@ -21,8 +21,10 @@ def search(
         match_cond: Callable[[str, str], bool],
         blacklist: List[str],
     ) -> str:
+    """Breath first search traversal of file system, attempts to find match given constraints."""
 
     def process_file(path: str, targets: List[str], depth: int) -> str:
+        """Determine whether a file is a match, should be searched, both, or neither."""
         if match_cond(path, targets[0]):
             if len(targets) - 1:  # if we are yet to reach the final target expr
                 if search_cond(path):  # lets add this path to be expanded and searched
@@ -34,6 +36,7 @@ def search(
         elif search_cond(path):  # path is not a match but should be expanded and searched
             queue.append((path, targets, depth -1))
 
+    # main search loop
     while queue:
         origin, targets, depth = queue.pop(0)
         if not depth: return  # we exhausted allocated depth, give up
@@ -44,14 +47,14 @@ def search(
             if match: return match  # if a match is found, we are done
         
 
-def load_aliases():
+def load_aliases() -> Dict[str, str]:
     try:
         with open(osp.join(ROOT_DIR, 'aliases.json'), 'r') as f:
             return load(f)
     except FileNotFoundError: return {}
 
 
-def load_blacklist():
+def load_blacklist() -> MutableSet[re.Pattern[AnyStr]]:
     try:
         with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
             return {re.compile(b) for b in load(f)}
@@ -70,7 +73,7 @@ def depth(arg: str) -> int:
 
 Types = IntEnum('Types', 'Unspecified File Dir All', start=0)
 
-def make_argparser():
+def make_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Super powered cd!')
     parser.add_argument('--level', '-l', type=depth, default=-1, help='limit search depth')
     parser.add_argument('--begin', '-b', default=os.getcwd(), help='select root of search path')
@@ -115,6 +118,7 @@ def main() -> None:
         print('Failed to find path.', flush=True)
     
     sys.exit(1)  # a successful search would have already prior to this
+
 
 if __name__ == '__main__':
     main()
