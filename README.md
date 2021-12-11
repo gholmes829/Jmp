@@ -74,8 +74,8 @@ Flags include:
 Take note of the function variations/ aliases that come with the `jmp` suite:
 - `jmpa` runs `jmp` using root as the search root
 - `jmps` runs `jmp` using the first argument as the search root
-- `jmpf` allows only files to be matched by `expr_n`
-- `jmpd` allows only dirs to be matched by `expr_n`
+- `jmpf` runs `jmp` and allows only files to be matched by `expr_n`
+- `jmpd` runs `jmp` and allows only dirs to be matched by `expr_n`
 
 Since a major point of `jmp` is for convenience and to save time, it would make sense to use `jmpd` rather than `jmp -d`, for example.
 
