@@ -6,8 +6,8 @@ Jmp: never use cd again
 
 Have you ever used the `cd` command? You'll never touch that outdated thing again when you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before; become a truly unstoppable force on the command line.
 
-- Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory
-- Instead of `cd /Users/gholmes/Projects/Diviner/core/`, just input `jmp D c` to achieve the exact same results
+- Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory.
+- Instead of `cd /Users/gholmes/Projects/Diviner/core/`, just input `jmp D c` to achieve the exact same results.
 - Desperately need a file but don't remember the full name or path? Try `jmpa ".*<snippet of name you remember>.*"`.
 
 We don't live forever, so why waste a **single second** more of your life typing unnecessarily verbose paths on the command line?
