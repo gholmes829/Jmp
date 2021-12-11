@@ -1,4 +1,4 @@
-Jmp: never use cd again
+Jmp: the better cd
 =
 ![Setup](https://img.shields.io/badge/Setup-easy-blue)
 ![Cross-Platform](https://img.shields.io/badge/Cross--Platform-true-blue)
