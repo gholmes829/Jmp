@@ -13,23 +13,9 @@ from functools import reduce
 import operator
 from enum import IntEnum
 from json import load
-import time
 
 
 ROOT_DIR = osp.dirname(osp.realpath(__file__))
-
-class Timer:
-    def __enter__(self):
-        self._timer = time.time()
-        self._elapsed = None
-        return self
-
-    def elapsed(self):
-        return self._elapsed
-
-    def __exit__(self, *_):
-        self._elapsed = time.time() - self._timer
-
 
 def search(
         queue: List[Tuple[str, List[str], int]],
@@ -121,7 +107,7 @@ def main() -> None:
 
     # run the search
     match = search([(args.begin, regexes, args.level)], search_cond, match_cond, blacklist)
-    
+
     if match:
         print(match, flush=True)
         sys.exit(0)
