@@ -5,19 +5,20 @@ Jmp: never use cd again
 ![Cross-Platform](https://img.shields.io/badge/Documentation-100%25-brightgreen)
 ![License](https://img.shields.io/badge/Licence-MIT-green)
 
-Have you ever used the `cd` command? You'll never touch that outdated thing again when you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before.
+Ever used the `cd` command? You'll never touch that outdated thing again when you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before.
 
-- Given a set of regular expressions, `jmp` will intelligently search through your files and `cd` you into your intended directory.
-- Desperately need a file but don't remember the full name or path? Try `jmpa ".*<snippet of name you remember>.*"`.
+- Given a set of regular expressions, `jmp` will **intelligently** search through your files and `cd` you into your intended directory.
+- Supports blacklisting and aliasing for **optimal** search performance.
+- Offers entire `jmp` suite for **unmatched** convenience.
 
 We don't live forever, so why waste a **single second** more of your life typing unnecessarily verbose paths on the command line?
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/60802511/145672534-9c1e2e33-f9f3-4cd3-93ea-3f7f7c2556cb.png" width="80%">
+  <img src="https://user-images.githubusercontent.com/60802511/145676384-cf72411e-a00b-44ec-b835-f28681a6ae34.mp4" width="75%">
 </p>
 
 ## Getting Started
-In terms of dependencies, all you need is a working installation of [Python 3](https://www.python.org/downloads/). The scripts only leverages standard libraries so no package installation needed.
+In terms of dependencies, all you need is a working installation of [Python 3](https://www.python.org/downloads/). The scripts only utilizes standard libraries so no package installation needed.
 
 \
 Clone this repo:
@@ -84,6 +85,8 @@ If you excessively shorten your expressions, it is very likely you'll end up in 
 Considering the absolute worst case in terms of convenience, we can see that `jmp` converges to `cd` as each expression could be the next folder that you would need to `cd` to (e.g. `jmp Projects Diviner core` vs `cd Projects/Diviner/core`). In other words, `jmp` is *at least* as convenient as `cd` and has potential to be a lot, lot better. However, if you try to drop too much information, you may lose accuracy. Try to use the minimal number of expressions while still retaining substrings or patterns unique to your target location.
 
 Optionally, you can rename the `jmp` command to something else. Setting `alias dc=jmp` in your terminal config file will now let you run `dc D c` (from the example above), where `dc` is now `cd`'s evil nemesis.
+
+Desperately need a file but don't remember the full name or path? Try `jmpa ".*<snippet of name you remember>.*"`.
 
 ## Deeper Customization
 All `jmp_wrapper.sh` does is call and handle output from `jmp.py`. `jmp.py` is pretty succinct and modular, so it shouldn't be too hard to modify the constraints for searching, matching, or even the traversal algorithm itself.
