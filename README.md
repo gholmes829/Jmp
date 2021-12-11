@@ -1,7 +1,8 @@
 Jmp: never use cd again
 =
-![Setup](https://img.shields.io/badge/Setup-Simple-blue)
-![Cross-Platform](https://img.shields.io/badge/Cross--Platform-True-brightgreen)
+![Setup](https://img.shields.io/badge/Setup-easy-blue)
+![Cross-Platform](https://img.shields.io/badge/Cross--Platform-true-blue)
+![Cross-Platform](https://img.shields.io/badge/Documentation-100%25-brightgreen)
 ![License](https://img.shields.io/badge/Licence-MIT-green)
 
 Have you ever used the `cd` command? You'll never touch that outdated thing again when you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before; become a truly unstoppable force on the command line.
@@ -16,7 +17,7 @@ We don't live forever, so why waste a **single second** more of your life typing
   <img src="https://user-images.githubusercontent.com/60802511/145672534-9c1e2e33-f9f3-4cd3-93ea-3f7f7c2556cb.png" width="80%">
 </p>
 
-## Installation and Setup
+## Getting Started
 In terms of dependencies, all you need is a working installation of [Python 3](https://www.python.org/downloads/). The scripts only leverages standard libraries so no package installation needed.
 
 \
@@ -56,7 +57,7 @@ If you don't want to waste compute time on deep directories that you know don't 
 ## Aliasing
 If you find yourself not wanting to refer to a directory's name every time, you can use aliases. You can modify `aliases.json` to include a key-value pair that transforms your input. For example, adding `"cc": "EECS 665"` to `aliases.json` would make it so `jmp cc` gets interpreted as `jmp EECS\ 665`. This allows for shorter commands that get you to where you want. 
 
-## Arguments
+## Flags and Jmp Suite
 Learn more about flags and usage:
 ```
 $ jmp -h
@@ -85,5 +86,11 @@ Considering the absolute worst case in terms of convenience, we can see that `jm
 
 Optionally, you can rename the `jmp` command to something else. Setting `alias dc=jmp` in your terminal config file will now let you run `dc D c` (from the example above), where `dc` is now `cd`'s evil nemesis.
 
-## Development and Advanced Customization
+## Deeper Customization
 All `jmp_wrapper.sh` does is call and handle output from `jmp.py`. `jmp.py` is pretty succinct and modular, so it shouldn't be too hard to modify the constraints for searching, matching, or even the traversal algorithm itself.
+
+## Contributing
+Please feel free to reach out if you're interested in contributing or have ideas for features!
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details
