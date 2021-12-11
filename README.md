@@ -1,4 +1,4 @@
-Jmp: the better cd
+Jmp: the superior cd
 =
 ![Setup](https://img.shields.io/badge/Setup-easy-blue)
 ![Cross-Platform](https://img.shields.io/badge/Cross--Platform-true-blue)
