@@ -1,9 +1,16 @@
-Jmp: the superior cd
-=
-![Setup](https://img.shields.io/badge/Setup-easy-blue)
-![Cross-Platform](https://img.shields.io/badge/Cross--Platform-true-blue)
-![Cross-Platform](https://img.shields.io/badge/Documentation-100%25-brightgreen)
-![License](https://img.shields.io/badge/Licence-MIT-green)
+<h1 align="center">
+  <img src="https://user-images.githubusercontent.com/60802511/145707518-9db0962c-c291-4a32-bb1d-478227fd2e11.png" width="40%">
+</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Setup-easy-blue", height="23">
+  <img src="https://img.shields.io/badge/Cross--Platform-true-blue", height="23">
+  <img src="https://img.shields.io/badge/Documentation-100%25-brightgreen", height="23">
+  <img src="https://img.shields.io/badge/Licence-MIT-green", height="23">
+</p>
+
+
+### Jmp: the superior cd
 
 Ever used the `cd` command? You'll never touch that outdated thing again when you try `jmp`. Navigate your filesystem with unprecedented speed, agility, and dexterity **NEVER** seen before.
 
