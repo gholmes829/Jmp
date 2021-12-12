@@ -18,8 +18,9 @@ Ever used the `cd` command? You'll never touch that outdated thing again when yo
 
 We don't live forever, so why waste a **single second** more of your life typing unnecessarily long paths?
 
+
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/60802511/145711127-3a9ded85-46c2-487c-8089-9e07634bffad.mp4" width="85%">
+  <img src="https://user-images.githubusercontent.com/60802511/145712448-73ac36be-c0c5-4708-a60e-fd1cecb0099f.gif" width="85%">
 </p>
 
 ## Getting Started
