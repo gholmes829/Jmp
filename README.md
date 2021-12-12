@@ -20,7 +20,7 @@ Ever used the `cd` command? You'll never touch that outdated thing again when yo
 We don't live forever, so why waste a **single second** more of your life typing unnecessarily verbose paths on the command line?
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/60802511/145676384-cf72411e-a00b-44ec-b835-f28681a6ae34.mp4" width="75%">
+  <img src="https://user-images.githubusercontent.com/60802511/145711127-3a9ded85-46c2-487c-8089-9e07634bffad.mp4" width="75%">
 </p>
 
 ## Getting Started
