@@ -17,7 +17,7 @@ ROOT_DIR = osp.dirname(osp.realpath(__file__))
 
 def search(
         queue: List[Tuple[str, List[str], int]],
-        search_cond: Callable[[str, str], bool],
+        search_cond: Callable[[str], bool],
         match_cond: Callable[[str, str], bool],
         blacklist: List[str],
     ) -> str:
