@@ -16,7 +16,7 @@ Ever used the `cd` command? You'll never touch that outdated thing again when yo
 - Supports blacklisting and aliasing for **optimal** search performance.
 - Offers entire `jmp` suite for **unmatched** convenience.
 
-We don't live forever, so why waste a **single second** more of your life typing unnecessarily verbose paths on the command line?
+We don't live forever, so why waste a **single second** more of your life typing unnecessarily long paths?
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/60802511/145711127-3a9ded85-46c2-487c-8089-9e07634bffad.mp4" width="85%">
