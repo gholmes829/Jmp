@@ -20,7 +20,7 @@ We don't live forever, so why waste a **single second** more of your life typing
 
 <p align="center">
   <b></b>
-  <img src="https://user-images.githubusercontent.com/60802511/145711127-3a9ded85-46c2-487c-8089-9e07634bffad.mp4" width="75%">
+  <img src="https://user-images.githubusercontent.com/60802511/145711127-3a9ded85-46c2-487c-8089-9e07634bffad.mp4" width="85%">
 </p>
 
 ## Getting Started
