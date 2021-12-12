@@ -34,12 +34,12 @@ $ git clone https://github.com/gholmes829/Jmp.git
 ```
 \
 Without changing folders from the place you ran `git clone`, run the following setup:
-```
+```bash
 $ echo -e "SCRIPT_DIR=\"$(pwd)/Jmp\"\n\n$(cat Jmp/jmp_wrapper.sh)" > Jmp/jmp_wrapper.sh; \
-  echo -e "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> <YOUR TERMINAL CONFIG PATH>; \
-  source <YOUR TERMINAL CONFIG PATH>
+  echo -e "\nsource \"$(pwd)/Jmp/jmp_wrapper.sh\"" >> YOUR_TERMINAL_CONFIG_PATH; \
+  source YOUR_TERMINAL_CONFIG_PATH
 ```
-where `<YOUR TERMINAL CONFIG PATH>` is the path to your `~/.bashrc`, `~/.zshrc`, or whatever else you use that gets run upon opening a terminal.
+where `YOUR_TERMINAL_CONFIG_PATH` is the path to your `~/.bashrc`, `~/.zshrc`, or whatever else you use that gets run upon opening a terminal.
 
 If you ever want to uninstall `jmp`, all you need to do is remove the `source <path to jmp_wrapper.sh>` that gets appended to your terminal config file.
 
