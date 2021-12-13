@@ -110,6 +110,10 @@ def main() -> None:
     elif not len(regexes) - 1 and re.fullmatch(r'..(/..)*/?', regexes[0]):
         print(regexes[0], flush=True)
         sys.exit(0)
+    elif re.fullmatch(r'..(/..)*/?', regexes[0]):
+        num_back = regexes[0].count('..')
+        for _ in range(num_back): begin = osp.dirname(begin)
+        regexes = regexes[1:]
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
