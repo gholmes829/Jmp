@@ -5,6 +5,7 @@ Email: g.holmes429@gmail.com
 
 import sys
 import os.path as osp, os
+from pathlib import Path
 import re
 import argparse
 from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet
@@ -92,6 +93,23 @@ def main() -> None:
     aliases = load_aliases()
     blacklist = load_blacklist()
     regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
+    begin = args.begin
+
+    if not len(regexes) - 1 and regexes[0] == '/':
+        print('/', flush=True)
+        sys.exit(0)
+    elif regexes[0] == '/':
+        begin = '/'
+        regexes = regexes[1:]
+    elif not len(regexes) - 1 and regexes[0] == str(Path.home()):
+        print(str(Path.home()), flush=True)
+        sys.exit(0)
+    elif regexes[0] == str(Path.home()):  # implies > 1 arg
+        begin = osp.abspath(str(Path.home()))
+        regexes = regexes[1:]
+    elif not len(regexes) - 1 and re.fullmatch(r'..(/..)*/?', regexes[0]):
+        print(regexes[0], flush=True)
+        sys.exit(0)
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
@@ -109,7 +127,7 @@ def main() -> None:
         return re.match(target, osp.basename(path)) and valid_type(path)
 
     # run the search
-    match = search([(args.begin, regexes, args.level)], search_cond, match_cond, blacklist)
+    match = search([(begin, regexes, args.level)], search_cond, match_cond, blacklist)
 
     if match:
         print(match, flush=True)
