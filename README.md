@@ -76,7 +76,6 @@ Flags include:
 * `-l, --level <int, level>` search will now run until match found or until max depth reached
 * `-s, --silent` indicate that failure to find path should not print a message
 
-
 Take note of the function variations/ aliases that come with the `jmp` suite:
 - `jmpa` runs `jmp` using root as the search root
 - `jmps` runs `jmp` using the first argument as the search root
@@ -101,4 +100,4 @@ All `jmp_wrapper.sh` does is call and handle output from `jmp.py`. `jmp.py` is p
 Please feel free to reach out if you're interested in contributing or have ideas for features!
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details
+This project is licensed under the MIT License - see the LICENSE file for details.
