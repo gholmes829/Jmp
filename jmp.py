@@ -7,7 +7,7 @@ import sys
 import os.path as osp, os
 import re
 import argparse
-from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet
+from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet, Pattern
 from functools import reduce
 from enum import IntEnum
 from json import load
@@ -54,7 +54,7 @@ def load_aliases() -> Dict[str, str]:
     except FileNotFoundError: return {}
 
 
-def load_blacklist() -> MutableSet[re.Pattern[AnyStr]]:
+def load_blacklist() -> MutableSet[Pattern[AnyStr]]:
     try:
         with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
             return {re.compile(b) for b in load(f)}
