@@ -100,6 +100,7 @@ def main() -> None:
     
     backwards_ptn = re.compile(r'[.][.]([/][.][.])*[/]?')
 
+    # initial parsing
     if not len(regexes) - 1 and regexes[0] == '/':
         print('/', flush=True)
         sys.exit(0)
@@ -119,6 +120,9 @@ def main() -> None:
         num_back = regexes[0].count('..')
         for _ in range(num_back): begin = osp.dirname(begin)
         regexes = regexes[1:]
+
+    # splits on / to add support for tab completion
+    regexes = [checkpoint for regex in regexes for checkpoint in regex.split('/')]
 
     valid_type = {
         Types.Unspecified: lambda p: osp.exists(p),
