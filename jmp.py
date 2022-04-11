@@ -8,7 +8,7 @@ import os.path as osp, os
 from pathlib import Path
 import re
 import argparse
-from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet
+from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet, Pattern
 from functools import reduce
 from enum import IntEnum
 from json import load
@@ -35,7 +35,7 @@ def search(
             else:  # lets return the path which we know to be a directory
                 return path
         elif search_cond(path):  # path is not a match but should be expanded and searched
-            queue.append((path, targets, depth -1))
+            queue.append((path, targets, depth - 1))
 
     # main search loop
     while queue:
@@ -55,7 +55,7 @@ def load_aliases() -> Dict[str, str]:
     except FileNotFoundError: return {}
 
 
-def load_blacklist() -> MutableSet[re.Pattern[AnyStr]]:
+def load_blacklist() -> MutableSet[Pattern[AnyStr]]:
     try:
         with open(osp.join(ROOT_DIR, 'blacklist.json'), 'r') as f:
             return {re.compile(b) for b in load(f)}
@@ -81,7 +81,7 @@ def make_argparser() -> argparse.ArgumentParser:
     parser.add_argument('--silent', '-s', action='store_const', const=True, help='prevent normal stdout to console')
     parser.add_argument('--file', '-f', dest='flags', action='append_const', const=Types.File, help='specify to add file types to search')
     parser.add_argument('--dir', '-d', dest='flags', action='append_const', const=Types.Dir, help='specify to add dir types to search')
-    parser.add_argument('regexes', nargs='+', help='arbitrary number of regexes to match against')
+    parser.add_argument('regexes', nargs='*', help='arbitrary number of regexes to match against')
     return parser
 
 
@@ -89,12 +89,15 @@ def main() -> None:
     parser = make_argparser()
     try: args = parser.parse_args()
     except: sys.exit(1)
+    if not args.regexes:
+        print(str(Path.home()), flush=True)
+        sys.exit(0)
 
     aliases = load_aliases()
     blacklist = load_blacklist()
     regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
     begin = args.begin
-
+    
     if not len(regexes) - 1 and regexes[0] == '/':
         print('/', flush=True)
         sys.exit(0)
@@ -107,10 +110,10 @@ def main() -> None:
     elif regexes[0] == str(Path.home()):  # implies > 1 arg
         begin = osp.abspath(str(Path.home()))
         regexes = regexes[1:]
-    elif not len(regexes) - 1 and re.fullmatch(r'..(/..)*/?', regexes[0]):
+    elif not len(regexes) - 1 and re.fullmatch(r'[.][.]([/][.][.])*[/]?', regexes[0]):
         print(regexes[0], flush=True)
         sys.exit(0)
-    elif re.fullmatch(r'..(/..)*/?', regexes[0]):
+    elif re.fullmatch(r'[.][.]([/][.][.])*[/]?', regexes[0]):
         num_back = regexes[0].count('..')
         for _ in range(num_back): begin = osp.dirname(begin)
         regexes = regexes[1:]
