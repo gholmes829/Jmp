@@ -98,6 +98,8 @@ def main() -> None:
     regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
     begin = args.begin
     
+    backwards_ptn = re.compile(r'[.][.]([/][.][.])*[/]?')
+
     if not len(regexes) - 1 and regexes[0] == '/':
         print('/', flush=True)
         sys.exit(0)
@@ -110,10 +112,10 @@ def main() -> None:
     elif regexes[0] == str(Path.home()):  # implies > 1 arg
         begin = osp.abspath(str(Path.home()))
         regexes = regexes[1:]
-    elif not len(regexes) - 1 and re.fullmatch(r'[.][.]([/][.][.])*[/]?', regexes[0]):
+    elif not len(regexes) - 1 and re.fullmatch(backwards_ptn, regexes[0]):
         print(regexes[0], flush=True)
         sys.exit(0)
-    elif re.fullmatch(r'[.][.]([/][.][.])*[/]?', regexes[0]):
+    elif re.fullmatch(backwards_ptn, regexes[0]):
         num_back = regexes[0].count('..')
         for _ in range(num_back): begin = osp.dirname(begin)
         regexes = regexes[1:]
