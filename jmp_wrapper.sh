@@ -1,5 +1,3 @@
-SCRIPT_DIR="/Users/gholmes/Projects/Jmp"
-
 function jmp() {
 	OUT="$(python3 ${SCRIPT_DIR}/jmp.py "$@")"
 	EXIT="$?"
