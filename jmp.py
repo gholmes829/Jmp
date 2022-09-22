@@ -137,7 +137,11 @@ def main() -> None:
 
     # specify how a match should be determined
     def match_cond(path: str, target: str) -> bool:
-        return re.match(target, osp.basename(path)) and valid_type(path)
+        try:
+            return re.match(target, osp.basename(path)) and valid_type(path)
+        except re.error as re_err:
+            print(f'Invalid pattern for "{re_err.pattern}": {re_err.args[0]}.', flush=True)
+            sys.exit(1)
 
     # run the search
     match = search([(begin, regexes, args.level)], search_cond, match_cond, blacklist)
