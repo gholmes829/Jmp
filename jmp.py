@@ -101,19 +101,19 @@ def main() -> None:
     backwards_ptn = re.compile(r'[.][.]([/][.][.])*[/]?')
 
     # initial parsing
-    if not len(regexes) - 1 and regexes[0] == '/':
+    if len(regexes) == 1 and regexes[0] == '/':
         print('/', flush=True)
         sys.exit(0)
     elif regexes[0] == '/':
         begin = '/'
         regexes = regexes[1:]
-    elif not len(regexes) - 1 and regexes[0] == str(Path.home()):
+    elif len(regexes) == 1 and regexes[0] == str(Path.home()):
         print(str(Path.home()), flush=True)
         sys.exit(0)
     elif regexes[0] == str(Path.home()):  # implies > 1 arg
         begin = osp.abspath(str(Path.home()))
         regexes = regexes[1:]
-    elif not len(regexes) - 1 and re.fullmatch(backwards_ptn, regexes[0]):
+    elif len(regexes) == 1 and re.fullmatch(backwards_ptn, regexes[0]):
         print(regexes[0], flush=True)
         sys.exit(0)
     elif re.fullmatch(backwards_ptn, regexes[0]):
@@ -148,7 +148,7 @@ def main() -> None:
     elif not args.silent:
         print('Failed to find path.', flush=True)
     
-    sys.exit(1)  # a successful search would have already prior to this
+    sys.exit(1)  # a successful search would have already exited prior to this
 
 
 if __name__ == '__main__':
