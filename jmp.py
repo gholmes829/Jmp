@@ -71,12 +71,14 @@ def depth(arg: str) -> int:
     except (TypeError, AssertionError):
         raise argparse.ArgumentTypeError('Depth must be greater than 0 or -1')
 
+
 def get_safe_cwd() -> Union[str, Exception]:
     """Handles edge case where users run jmp from deleted directory"""
     try:
         return os.getcwd()
     except PermissionError as err:
         return err
+
 
 Types = IntEnum('Types', 'Unspecified File Dir All', start=0)
 
