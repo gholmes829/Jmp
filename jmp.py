@@ -8,7 +8,7 @@ import os.path as osp, os
 from pathlib import Path
 import re
 import argparse
-from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet, Pattern
+from typing import AnyStr, Callable, Dict, List, Tuple, MutableSet, Pattern, Union
 from functools import reduce
 from enum import IntEnum
 from json import load
@@ -71,14 +71,21 @@ def depth(arg: str) -> int:
     except (TypeError, AssertionError):
         raise argparse.ArgumentTypeError('Depth must be greater than 0 or -1')
 
+def get_safe_cwd() -> Union[str, Exception]:
+    """Handles edge case where users run jmp from deleted directory"""
+    try:
+        return os.getcwd()
+    except PermissionError as err:
+        return err
 
 Types = IntEnum('Types', 'Unspecified File Dir All', start=0)
 
 def make_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Super powered cd!')
     parser.add_argument('--level', '-l', type=depth, default=-1, help='limit search depth')
-    parser.add_argument('--begin', '-b', default=os.getcwd(), help='select root of search path')
+    parser.add_argument('--begin', '-b', default=get_safe_cwd(), help='select root of search path')
     parser.add_argument('--silent', '-s', action='store_const', const=True, help='prevent normal stdout to console')
+    parser.add_argument('--partial', '-p', action='store_const', const=True, help='modify match condition to allow for mid string regex match')
     parser.add_argument('--file', '-f', dest='flags', action='append_const', const=Types.File, help='specify to add file types to search')
     parser.add_argument('--dir', '-d', dest='flags', action='append_const', const=Types.Dir, help='specify to add dir types to search')
     parser.add_argument('regexes', nargs='*', help='arbitrary number of regexes to match against')
@@ -97,10 +104,13 @@ def main() -> None:
     blacklist = load_blacklist()
     regexes = [regex if regex not in aliases else aliases[regex] for regex in args.regexes]
     begin = args.begin
-    
+    if isinstance(begin, Exception):
+        raise begin
+
     backwards_ptn = re.compile(r'[.][.]([/][.][.])*[/]?')
 
     # initial parsing
+    backwards_ptn_match = re.fullmatch(backwards_ptn, regexes[0])
     if len(regexes) == 1 and regexes[0] == '/':
         print('/', flush=True)
         sys.exit(0)
@@ -113,13 +123,15 @@ def main() -> None:
     elif regexes[0] == str(Path.home()):  # implies > 1 arg
         begin = osp.abspath(str(Path.home()))
         regexes = regexes[1:]
-    elif len(regexes) == 1 and re.fullmatch(backwards_ptn, regexes[0]):
+    elif len(regexes) == 1 and backwards_ptn_match:
         print(regexes[0], flush=True)
         sys.exit(0)
-    elif re.fullmatch(backwards_ptn, regexes[0]):
+    elif backwards_ptn_match:
         num_back = regexes[0].count('..')
         for _ in range(num_back): begin = osp.dirname(begin)
         regexes = regexes[1:]
+
+    search_match_fn = re.search if args.partial else re.match
 
     # splits on / to add support for tab completion
     regexes = [checkpoint for regex in regexes for checkpoint in regex.split('/')]
@@ -138,7 +150,7 @@ def main() -> None:
     # specify how a match should be determined
     def match_cond(path: str, target: str) -> bool:
         try:
-            return re.match(target, osp.basename(path)) and valid_type(path)
+            return search_match_fn(target, osp.basename(path)) and valid_type(path)
         except re.error as re_err:
             print(f'Invalid pattern for "{re_err.pattern}": {re_err.args[0]}.', flush=True)
             sys.exit(1)
