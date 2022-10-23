@@ -88,6 +88,7 @@ def make_argparser() -> argparse.ArgumentParser:
     parser.add_argument('--begin', '-b', default=get_safe_cwd(), help='select root of search path')
     parser.add_argument('--silent', '-s', action='store_const', const=True, help='prevent normal stdout to console')
     parser.add_argument('--partial', '-p', action='store_const', const=True, help='modify match condition to allow for mid string regex match')
+    parser.add_argument('--caseinsensitive', '-c', action='store_const', const=True, help='make search case insensitive')
     parser.add_argument('--file', '-f', dest='flags', action='append_const', const=Types.File, help='specify to add file types to search')
     parser.add_argument('--dir', '-d', dest='flags', action='append_const', const=Types.Dir, help='specify to add dir types to search')
     parser.add_argument('regexes', nargs='*', help='arbitrary number of regexes to match against')
@@ -152,7 +153,7 @@ def main() -> None:
     # specify how a match should be determined
     def match_cond(path: str, target: str) -> bool:
         try:
-            return search_match_fn(target, osp.basename(path)) and valid_type(path)
+            return search_match_fn(target, osp.basename(path), regex_flags) and valid_type(path)
         except re.error as re_err:
             print(f'Invalid pattern for "{re_err.pattern}": {re_err.args[0]}.', flush=True)
             sys.exit(1)

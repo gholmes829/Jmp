@@ -76,6 +76,7 @@ Flags include:
 * `-l, --level <int, level>` search will now run until match found or until max depth reached
 * `-s, --silent` indicate that failure to find path should not print a message
 * `-p, --partial` modify match condition to allow for mid string regex match
+* `-c, --caseinsensitive` make search case insensitive
 
 Take note of the function variations/ aliases that come with the `jmp` suite:
 - `jmpa` runs `jmp` using root as the search root
