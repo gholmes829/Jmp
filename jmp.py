@@ -136,6 +136,8 @@ def main() -> None:
 
     search_match_fn = re.search if args.partial else re.match
 
+    regex_flags = re.IGNORECASE if args.caseinsensitive else 0
+
     # splits on / to add support for tab completion
     regexes = [checkpoint for regex in regexes for checkpoint in regex.split('/')]
 
@@ -174,4 +176,5 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        sys.exit(1)
+        print('\n', flush=True)
+        sys.exit(130)
